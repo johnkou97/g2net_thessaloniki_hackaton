@@ -15,10 +15,10 @@ X_test = npz_to_tensor('data/classification_test_data.npz')
 # Define the objective function for Optuna
 def objective(trial):
     # Define the search space for hyperparameters
-    learning_rate = trial.suggest_loguniform('learning_rate', 1e-5, 1e-2)
+    learning_rate = trial.suggest_loguniform('learning_rate', 1e-6, 1e-3)
     dropout_rate = trial.suggest_uniform('dropout_rate', 0.0, 0.5)
-    regularization_rate = trial.suggest_loguniform('regularization_rate', 1e-6, 1e-3)
-    batch_size = trial.suggest_categorical('batch_size', [32, 64, 128])
+    regularization_rate = trial.suggest_loguniform('regularization_rate', 1e-5, 1e-2)
+    batch_size = trial.suggest_categorical('batch_size', [2, 4, 8, 16, 32, 64])
 
     # Define the model architecture using the hyperparameters
     model = tf.keras.Sequential([
@@ -61,7 +61,7 @@ def objective(trial):
 
 # Create an Optuna study and optimize the hyperparameters
 study = optuna.create_study(direction='maximize')
-study.optimize(objective, n_trials=50)
+study.optimize(objective, n_trials=100)
 
 # Get the best hyperparameters from the study
 best_params = study.best_params
