@@ -4,6 +4,7 @@ import json
 import tensorflow as tf
 from tensorflow.keras import layers
 from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau
 from tensorflow.keras.regularizers import l2
 from helper import npz_to_tensor, plot_loss_and_accuracy
 
@@ -15,10 +16,12 @@ X_test = npz_to_tensor('data/classification_test_data.npz')
 # Define the objective function for Optuna
 def objective(trial):
     # Define the search space for hyperparameters
-    learning_rate = trial.suggest_loguniform('learning_rate', 1e-6, 1e-3)
-    dropout_rate = trial.suggest_uniform('dropout_rate', 0.0, 0.5)
+    learning_rate = trial.suggest_loguniform('learning_rate', 1e-6, 1e-2)
+    dropout_rate = trial.suggest_uniform('dropout_rate', 0.0, 0.7)
     regularization_rate = trial.suggest_loguniform('regularization_rate', 1e-5, 1e-2)
     batch_size = trial.suggest_categorical('batch_size', [2, 4, 8, 16, 32, 64])
+    epochs = 100
+    patience = 5
 
     # Define the model architecture using the hyperparameters
     model = tf.keras.Sequential([
@@ -52,8 +55,17 @@ def objective(trial):
     model.compile(optimizer=optimizer, loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 
     # Train the model with the defined hyperparameters
-    model.fit(X_train, Y_train, epochs=10, batch_size=batch_size, validation_data=(X_val, Y_val), verbose=0)
-
+    model.fit(x=X_train,
+			y=Y_train,
+			epochs=epochs,
+			verbose=0,
+			batch_size=batch_size,
+			validation_data=(X_val, Y_val),
+            shuffle=True,
+			callbacks=[
+				EarlyStopping(monitor='val_loss', patience=patience),
+				ReduceLROnPlateau(verbose=0, patience=patience, monitor='val_loss')
+			])
     # Evaluate the model on the validation set
     loss, accuracy = model.evaluate(X_val, Y_val)
 
