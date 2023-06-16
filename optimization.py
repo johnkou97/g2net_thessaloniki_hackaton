@@ -4,7 +4,7 @@ import json
 import tensorflow as tf
 from tensorflow.keras import layers
 from tensorflow.keras.optimizers import Adam
-from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau
+from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau, ModelCheckpoint
 from tensorflow.keras.regularizers import l2
 from helper import npz_to_tensor, plot_loss_and_accuracy
 
@@ -20,7 +20,7 @@ def objective(trial):
     dropout_rate = trial.suggest_uniform('dropout_rate', 0.0, 0.7)
     regularization_rate = trial.suggest_loguniform('regularization_rate', 1e-5, 1e-2)
     batch_size = trial.suggest_categorical('batch_size', [2, 4, 8, 16, 32, 64])
-    epochs = 100
+    epochs = 40
     patience = 5
 
     # Define the model architecture using the hyperparameters
@@ -63,9 +63,11 @@ def objective(trial):
 			validation_data=(X_val, Y_val),
             shuffle=True,
 			callbacks=[
-				EarlyStopping(monitor='val_loss', patience=patience),
-				ReduceLROnPlateau(verbose=0, patience=patience, monitor='val_loss')
+				EarlyStopping(monitor='accuracy', patience=patience),
+				ReduceLROnPlateau(verbose=0, patience=patience, monitor='accuracy'),
+                ModelCheckpoint('best-weights.h5', monitor='accuracy', save_best_only=True, save_weights_only=True)
 			])
+    model.load_weights('best-weights.h5')
     # Evaluate the model on the validation set
     loss, accuracy = model.evaluate(X_val, Y_val)
 
