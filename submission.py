@@ -24,6 +24,6 @@ print('Validation accuracy: ' + str(tf.reduce_mean(val_accuracy).numpy()))
 
 # generate submission file
 with open('submission.csv', 'w') as file:
-    file.write('id,label\n')
+    file.write('Id,Category\n')
     for i in range(len(Y_test_pred)):
         file.write(str(i) + ',' + str(tf.argmax(Y_test_pred[i]).numpy()) + '\n')
