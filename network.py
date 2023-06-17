@@ -2,7 +2,7 @@ import tensorflow as tf
 import json
 from tensorflow.keras import layers, regularizers
 from tensorflow.keras.optimizers import Adam
-from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau
+from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau, ModelCheckpoint
 from tensorflow.keras.regularizers import l2
 from helper import npz_to_tensor, plot_loss_and_accuracy
 
