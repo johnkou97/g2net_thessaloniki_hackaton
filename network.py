@@ -58,13 +58,14 @@ model.compile(optimizer=Adam(learning_rate=learning_rate), loss='sparse_categori
 history = model.fit(x=X_train,
 			y=Y_train,
 			epochs=epochs,
-			verbose=1,
+			verbose=0,
 			batch_size=batch_size,
 			validation_data=(X_val, Y_val),
             shuffle=True,
 			callbacks=[
-				EarlyStopping(monitor='val_loss', patience=patience),
-				ReduceLROnPlateau(verbose=1, patience=patience, monitor='val_loss')
+				EarlyStopping(monitor='accuracy', patience=patience),
+				ReduceLROnPlateau(verbose=0, patience=patience, monitor='accuracy'),
+                ModelCheckpoint('best-weights.h5', monitor='accuracy', save_best_only=True, save_weights_only=True)
 			])
 
 # Plots	
