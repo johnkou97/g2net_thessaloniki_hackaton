@@ -63,9 +63,9 @@ history = model.fit(x=X_train,
 			validation_data=(X_val, Y_val),
             shuffle=True,
 			callbacks=[
-				EarlyStopping(monitor='accuracy', patience=patience),
-				ReduceLROnPlateau(verbose=0, patience=patience, monitor='accuracy'),
-                ModelCheckpoint('model', monitor='accuracy', save_best_only=True, save_weights_only=False)
+				EarlyStopping(monitor='val_loss', patience=patience),
+				ReduceLROnPlateau(verbose=0, patience=patience, monitor='val_loss'),
+                ModelCheckpoint('model', monitor='val_loss', save_best_only=True, save_weights_only=False)
 			])
 
 # Plots	
