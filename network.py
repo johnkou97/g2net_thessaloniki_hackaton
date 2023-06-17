@@ -65,7 +65,7 @@ history = model.fit(x=X_train,
 			callbacks=[
 				EarlyStopping(monitor='accuracy', patience=patience),
 				ReduceLROnPlateau(verbose=0, patience=patience, monitor='accuracy'),
-                ModelCheckpoint('best-weights.h5', monitor='accuracy', save_best_only=True, save_weights_only=True)
+                ModelCheckpoint('model', monitor='accuracy', save_best_only=True, save_weights_only=False)
 			])
 
 # Plots	
