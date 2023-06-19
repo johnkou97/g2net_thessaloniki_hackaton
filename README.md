@@ -31,4 +31,15 @@ The data contain real noise segments of the Hanford detector during the O3 run, 
 
 The injections correspond to binary black hole mergers with non-aligned spins, having masses between 7 and 50 times the solar mass, randomly distributed at different sky localizations and inclinations and in a distance ranges that results in signal to noise ratios up to about 50.
 
-The full set of notebooks and tutorials can be found [here](https://github.com/niksterg/g2net_4th_training_school_thessaloniki_2023).   
+The full set of notebooks and tutorials can be found [here](https://github.com/niksterg/g2net_4th_training_school_thessaloniki_2023). 
+
+## Hyperparameter Optimization plots using Optuna
+
+
+!['history'](hyperparameter_plots/optimization_history.png)
+
+!['slice'](hyperparameter_plots/slice.png)
+
+!['parallel'](hyperparameter_plots/parallel_coordinate_plot.png)
+
+!['importance'](hyperparameter_plots/parameter_importances.png)
