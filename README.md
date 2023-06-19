@@ -18,6 +18,10 @@ My attempt at the [g2net hackathon](https://www.kaggle.com/competitions/g2net-ha
 - `helper.py`: Contains helper functions for the network.
 - `submission.py`: Contains the submission and evaluation function.
 
+## Usage
+
+Run the `optimization.py` file to find the best hyperparameters for the network. Then run the `network.py` file to train the network. Finally, run the `submission.py` file to create a submission file and evaluate the network.
+
 ## Information on the Hackathon
 
 The data contain real noise segments of the Hanford detector during the O3 run, in which gravitational wave models were injected at different signal-to-noise ratios. The goal is to classify them into one of three categories:
