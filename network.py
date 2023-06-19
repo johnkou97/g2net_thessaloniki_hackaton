@@ -20,7 +20,7 @@ batch_size = best_params['batch_size']
 regularization_rate = best_params['regularization_rate']
 dropout_rate = best_params['dropout_rate']
 epochs = 100
-patience = 5
+patience = 10
 
 # Define the model architecture
 model = tf.keras.Sequential([
@@ -58,7 +58,7 @@ model.compile(optimizer=Adam(learning_rate=learning_rate), loss='sparse_categori
 history = model.fit(x=X_train,
 			y=Y_train,
 			epochs=epochs,
-			verbose=0,
+			verbose=1,
 			batch_size=batch_size,
 			validation_data=(X_val, Y_val),
             shuffle=True,
